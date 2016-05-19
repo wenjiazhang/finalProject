@@ -1,4 +1,4 @@
-class Character{
+class Character implements Drawable{
   int x,y,dx,dy;
   color iro;
   
@@ -17,7 +17,7 @@ class Character{
   }
   
   void draw(){
-   fill(0,0,0);
+   fill(0,200,200);
    rect(x,y,10,20);
   }
 }
