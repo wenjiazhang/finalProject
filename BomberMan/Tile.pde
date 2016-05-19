@@ -7,7 +7,7 @@
       this.y = y;
     }
     void draw(){
-        fill(189, 183, 107);
+        fill(#5213AD);
         rect(x,y,10,10);
       //image(photo,x,y);
     }

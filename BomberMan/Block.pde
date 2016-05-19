@@ -9,7 +9,7 @@ class Block implements Drawable{
     item = (int)(Math.random()* 3); //will implement later
   }
   void draw(){
-    fill(0,0,225);
+    fill(#57CADE);
     rect(x,y,10,10);
   }
   /*void break(){ 

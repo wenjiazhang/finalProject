@@ -6,20 +6,30 @@ ArrayList<Drawable> toDraw = new ArrayList<Drawable>();
 ArrayList<Bomb> bombs = new ArrayList<Bomb>();
 ArrayList<Character> chars = new ArrayList<Character>();
 ArrayList<Block> blocks = new ArrayList<Block>();
-Tile[][] grid = new Tile[height/10][width/10];
+Tile[][] grid = new Tile[height][width];
 void setup(){
   colorMode(HSB);
   state = 0;
-  size(640, 480);
+  size(320, 240);
   background = color(0,0,200);
-  player1 = new Player(100,100,0,0);
-   for(int i = 0;i<grid.length;i++){
-    for(int index = 0;index<grid[0].length;index++){
+   for(int i = 0;i<grid.length;i+=2){
+    for(int index = 0;index<grid[0].length;index+=2){
       grid[i][index] = new Tile(i*10, index*10);
       toDraw.add(grid[i][index]);
       System.out.println("Tile added!");
     }
   } 
+  
+  for(int i = 0;i<grid.length;i+=2){
+    for(int index = 0;index<grid[0].length;index+=2){
+      if((int)(Math.random() * 4) == 1){
+        Block b = new Block(i*10,index*10);
+        blocks.add(b);
+        toDraw.add(b);
+      }
+    }
+  }
+  player1 = new Player(100,100,0,0);
   toDraw.add(player1);
   noStroke();
   ellipseMode(CENTER);
@@ -28,14 +38,7 @@ void setup(){
 
 void draw(){
   background(background);
- 
-  /*for(int i = 0;i<grid.length;i+=10){
-    for(int index = 0;index<grid[0].length;index+=10){
-      if((int)(Math.random() * 3) == 1){
-        blocks.add(new Block(i,index));
-      }
-    }
-  }*/
+  //<>//
   //get input
   
   //change states
