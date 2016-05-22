@@ -17,6 +17,9 @@
         img = loadImage("bombUp.png");
       }
     }
+    int getIT(){
+      return itemType;
+    }
     PImage getImg(){
       return img;
     }

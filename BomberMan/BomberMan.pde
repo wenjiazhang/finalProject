@@ -26,7 +26,7 @@ void setup(){
   while(grid[row][col].getState() == 2){
     col++;
   }
-  player1 = new Player(row*40+20,col*40+20,0,0);
+  player1 = new Player(row*40+20,col*40+20,0,0,0);
   toDraw.add(player1);
   //noStroke();
   ellipseMode(CENTER);
@@ -41,6 +41,10 @@ void draw(){
   //change states
   player1.x+=player1.dx;
   player1.y+=player1.dy;
+  if(grid[player1.x/40][player1.y/40].getState() == 1){
+    player1.useItem(grid[player1.x/40][player1.y/40].getIT());
+    grid[player1.x/40][player1.y/40].setState(0);
+  }
   for(int i=0;i<bombs.size();i++){
     if(bombs.get(i).countDown()){
       int x = bombs.get(i).getX();
@@ -92,13 +96,13 @@ void keyReleased() {
 
 void keyPressed() {
   if(keyCode== UP){
-    player1.dy = -2;
+    player1.dy = -2 - player1.speed;
   }else if(keyCode == DOWN){
-    player1.dy = 2;
+    player1.dy = 2 + player1.speed;
   }else if(keyCode == LEFT){
-    player1.dx = -2;
+    player1.dx = -2 - player1.speed;
   }else if(keyCode == RIGHT){
-    player1.dx = 2;
+    player1.dx = 2 + player1.speed;
   }else if(key == ' '){
     Bomb temp = new Bomb(player1.x,player1.y,1);
     bombs.add(temp);
