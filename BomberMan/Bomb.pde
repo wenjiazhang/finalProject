@@ -8,7 +8,12 @@ class Bomb implements Drawable{
    this.team = team;
    time = millis();
  }
- 
+ int getX(){
+   return x;
+ }
+ int getY(){
+   return y;
+ }
  void draw(){
    if(team == 1){
      fill(0,200,150);
@@ -36,7 +41,6 @@ class Bomb implements Drawable{
  }
  
  void explode(){
-   
    toDraw.remove(this);
    bombs.remove(this);
  }

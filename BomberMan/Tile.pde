@@ -12,6 +12,10 @@
     int getState(){
       return state;
     }
+    void setState(int newState){
+      state = newState;
+      System.out.println("tile at " + x + "/" + y + "is now at state " + state);
+    }
     void draw(){
       if(state < 2){
         fill(#FFFFFF);
@@ -22,4 +26,6 @@
         rect(x+20,y+20,40,40);
       //image(photo,x,y);
     }
+   
+   
   }

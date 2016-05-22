@@ -43,7 +43,22 @@ void draw(){
   player1.y+=player1.dy;
   for(int i=0;i<bombs.size();i++){
     if(bombs.get(i).countDown()){
-      bombs.get(i).explode();
+      int x = bombs.get(i).getX();
+      int y = bombs.get(i).getY();
+       bombs.get(i).explode();
+      System.out.println("x/y: " + x + "/" + y);
+      if(grid[x/40+1][y/40].getState() == 2){
+        grid[x/40+1][y/40].setState(1);
+      }
+      if(grid[x/40-1][y/40].getState() == 2){
+        grid[x/40-1][y/40].setState(1);
+      }
+      if(grid[x/40][y/40+1].getState() == 2){
+        grid[x/40][y/40+1].setState(1);
+      }
+      if(grid[x/40][y/40-1].getState() == 2){
+        grid[x/40][y/40-1].setState(1);
+      }
       i--; //<>//
     }
   }
