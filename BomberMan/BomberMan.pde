@@ -6,7 +6,7 @@ ArrayList<Drawable> toDraw = new ArrayList<Drawable>();
 ArrayList<Bomb> bombs = new ArrayList<Bomb>();
 ArrayList<Character> chars = new ArrayList<Character>();
 Tile[][] grid;
-
+//Item[][] itemGrid;
 void setup(){
   colorMode(HSB);
   state = 0;
@@ -15,7 +15,7 @@ void setup(){
   background = color(0,0,200);
    for(int i = 0;i<grid.length;i++){
     for(int index = 0;index<grid[0].length;index++){
-      grid[i][index] = new Tile(i*40, index*40,(int)(Math.random()*3));
+      grid[i][index] = new Tile(i*40, index*40,(int)(Math.random()*2)*2,(int)(Math.random()*2));
       toDraw.add(grid[i][index]);
       //System.out.println("Tile added!");
     }
