@@ -29,16 +29,12 @@
     }
     void draw(){
       if(state == 1){
-        fill(#FFFFFF);
-        image(img,x,y,30,30);
+        noFill();
+        image(img,x,y,40,40);
       }
       else if(state == 0){
         fill(#FFFFFF);
       }
-      //else if(state == 1){
-      //  image(img,x,y,30,30);
-      //  fill(0,0,0);
-      //}
       else{
         fill(0,0,0);
       }
