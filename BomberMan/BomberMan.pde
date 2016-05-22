@@ -6,6 +6,7 @@ ArrayList<Drawable> toDraw = new ArrayList<Drawable>();
 ArrayList<Bomb> bombs = new ArrayList<Bomb>();
 ArrayList<Character> chars = new ArrayList<Character>();
 Tile[][] grid;
+
 void setup(){
   colorMode(HSB);
   state = 0;
@@ -19,8 +20,13 @@ void setup(){
       //System.out.println("Tile added!");
     }
   } 
-  
-  player1 = new Player(100,100,0,0);
+  //to prevent character starting off on wall
+  int row = 1;
+  int col = 1;
+  while(grid[row][col].getState() == 2){
+    col++;
+  }
+  player1 = new Player(row*40+20,col*40+20,0,0);
   toDraw.add(player1);
   //noStroke();
   ellipseMode(CENTER);
