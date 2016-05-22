@@ -19,7 +19,7 @@
       else{
         fill(0,0,0);
       }
-        rect(x,y,40,40);
+        rect(x+20,y+20,40,40);
       //image(photo,x,y);
     }
   }
