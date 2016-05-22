@@ -18,6 +18,6 @@ class Character implements Drawable{
   
   void draw(){
    fill(0,200,200);
-   rect(x,y,10,20);
+   rect(x,y,40,40);
   }
 }

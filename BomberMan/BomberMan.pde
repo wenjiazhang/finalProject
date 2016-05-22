@@ -10,28 +10,19 @@ Tile[][] grid = new Tile[height][width];
 void setup(){
   colorMode(HSB);
   state = 0;
-  size(320, 240);
+  size(480, 600);
   background = color(0,0,200);
-   for(int i = 0;i<grid.length;i+=2){
-    for(int index = 0;index<grid[0].length;index+=2){
-      grid[i][index] = new Tile(i*10, index*10);
+   for(int i = 0;i<grid.length;i+=4){
+    for(int index = 0;index<grid[0].length;index+=4){
+      grid[i][index] = new Tile(i*10, index*10,(int)(Math.random()*3));
       toDraw.add(grid[i][index]);
       System.out.println("Tile added!");
     }
   } 
   
-  for(int i = 0;i<grid.length;i+=2){
-    for(int index = 0;index<grid[0].length;index+=2){
-      if((int)(Math.random() * 4) == 1){
-        Block b = new Block(i*10,index*10);
-        blocks.add(b);
-        toDraw.add(b);
-      }
-    }
-  }
   player1 = new Player(100,100,0,0);
   toDraw.add(player1);
-  noStroke();
+  //noStroke();
   ellipseMode(CENTER);
   rectMode(CENTER);
 }
