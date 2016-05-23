@@ -1,4 +1,4 @@
-class Bomb implements Drawable{
+class Bomb implements Drawable,Volatile{
  int x,y,team;
  float time;
  
@@ -41,7 +41,10 @@ class Bomb implements Drawable{
  }
  
  void explode(){
+   Cross temp = new Cross(x,y,3);
+   toDraw.add(temp);
+   explosives.add(temp);
    toDraw.remove(this);
-   bombs.remove(this);
+   explosives.remove(this);
  }
 }
