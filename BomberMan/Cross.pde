@@ -8,6 +8,12 @@ class Cross implements Drawable,Volatile{
     this.size = size;
     time = millis();
   }
+  int getRadius(){
+    return size/2;
+  }
+  void setRadius(int newRad){
+    size = newRad * 2 +1;
+  }
   int getX(){
     return x;
   }

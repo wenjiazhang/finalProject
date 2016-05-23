@@ -72,26 +72,31 @@ void draw(){
   //change bomb/cross states
   for(int i=0;i<explosives.size();i++){
     if(explosives.get(i) instanceof Cross){
+      System.out.println("cross radius is" + explosives.get(i).getRadius());
+      
       if(((Cross)explosives.get(i)).inBlast(player1.x,player1.y) && player1.status == 0){
         player1.takeDamage();
       }
-    }
+    }   
     if(explosives.get(i).countDown()){
       int x = explosives.get(i).getX();
       int y = explosives.get(i).getY();
+      int rad = explosives.get(i).getRadius();
       explosives.get(i).explode();
       System.out.println("x/y: " + x + "/" + y);
-      if(grid[x/40+1][y/40].getState() == 2){
-        grid[x/40+1][y/40].setState(1);
-      }
-      if(grid[x/40-1][y/40].getState() == 2){
-        grid[x/40-1][y/40].setState(1);
-      }
-      if(grid[x/40][y/40+1].getState() == 2){ //<>//
-        grid[x/40][y/40+1].setState(1);
-      }
-      if(grid[x/40][y/40-1].getState() == 2){
-        grid[x/40][y/40-1].setState(1);
+      for(int inc = 1;inc<rad+1;inc++){
+        if(grid[x/40+inc][y/40].getState() == 2){
+          grid[x/40+inc][y/40].setState(1);
+        }
+        if(grid[x/40-inc][y/40].getState() == 2){
+          grid[x/40-inc][y/40].setState(1);
+        }
+        if(grid[x/40][y/40+inc].getState() == 2){ //<>//
+          grid[x/40][y/40+inc].setState(1);
+        }
+        if(grid[x/40][y/40-inc].getState() == 2){
+          grid[x/40][y/40-inc].setState(1);
+        }
       }
       i--;
     }
@@ -154,7 +159,7 @@ void keyPressed() {
   }else if(keyCode == RIGHT && player1.dy ==0){
     player1.dx = player1.speed;
   }else if(key == ' '){
-    Bomb temp = new Bomb(player1.x,player1.y,1);
+    Bomb temp = new Bomb(player1.x,player1.y,1,player1.radius);
     explosives.add(temp);
     toDraw.add(temp);
   }

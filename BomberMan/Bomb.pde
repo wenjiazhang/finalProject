@@ -1,11 +1,13 @@
 class Bomb implements Drawable,Volatile{
  int x,y,team;
  float time;
+ int radius;
  
- Bomb(int x,int y,int team){
+ Bomb(int x,int y,int team,int rad){
    this.x = x;
    this.y = y;
    this.team = team;
+   radius = rad;
    time = millis();
  }
  int getX(){
@@ -13,6 +15,12 @@ class Bomb implements Drawable,Volatile{
  }
  int getY(){
    return y;
+ }
+ int getRadius(){
+   return radius;
+ }
+ void setRadius(int newRad){
+   radius = newRad;
  }
  void draw(){
    if(team == 1){
@@ -41,7 +49,7 @@ class Bomb implements Drawable,Volatile{
  }
  
  void explode(){
-   Cross temp = new Cross(x,y,3);
+   Cross temp = new Cross(x,y,radius*2+1);
    toDraw.add(temp);
    explosives.add(temp);
    toDraw.remove(this);
