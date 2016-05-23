@@ -35,7 +35,7 @@ void setup(){
 
 void draw(){
   background(background);
-  //<>//
+  //<>// //<>//
   //get input
   
   //change states
@@ -68,28 +68,6 @@ void draw(){
     player1.useItem(grid[player1.x/40][player1.y/40].getIT());
     grid[player1.x/40][player1.y/40].setState(0);
   }
-  /*
-  for(int i=0;i<bombs.size();i++){
-    if(bombs.get(i).countDown()){
-      int x = bombs.get(i).getX();
-      int y = bombs.get(i).getY();
-       bombs.get(i).explode();
-      System.out.println("x/y: " + x + "/" + y);
-      if(grid[x/40+1][y/40].getState() == 2){
-        grid[x/40+1][y/40].setState(1);
-      }
-      if(grid[x/40-1][y/40].getState() == 2){
-        grid[x/40-1][y/40].setState(1);
-      }
-      if(grid[x/40][y/40+1].getState() == 2){
-        grid[x/40][y/40+1].setState(1);
-      }
-      if(grid[x/40][y/40-1].getState() == 2){
-        grid[x/40][y/40-1].setState(1);
-      }
-      i--; //<>//
-    }
-  }*/
   
   //change bomb/cross states
   for(int i=0;i<explosives.size();i++){
@@ -99,7 +77,22 @@ void draw(){
       }
     }
     if(explosives.get(i).countDown()){
+      int x = explosives.get(i).getX();
+      int y = explosives.get(i).getY();
       explosives.get(i).explode();
+      System.out.println("x/y: " + x + "/" + y);
+      if(grid[x/40+1][y/40].getState() == 2){
+        grid[x/40+1][y/40].setState(1);
+      }
+      if(grid[x/40-1][y/40].getState() == 2){
+        grid[x/40-1][y/40].setState(1);
+      }
+      if(grid[x/40][y/40+1].getState() == 2){ //<>//
+        grid[x/40][y/40+1].setState(1);
+      }
+      if(grid[x/40][y/40-1].getState() == 2){
+        grid[x/40][y/40-1].setState(1);
+      }
       i--;
     }
   }
