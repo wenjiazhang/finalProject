@@ -40,28 +40,14 @@ void draw(){
   
   //change states
   //player movement
-  if(player1.slidingX){
-    if((player1.x-20)%40 != 0 && player1.leftRightClear()){
-      player1.x+=player1.dx;
-    }else{
-      player1.dx = 0;
-      player1.slidingX = false;
-    }
-  }else if(player1.slidingY){
-    if((player1.y-20)%40 != 0 && player1.upDownClear()){
-      player1.y+=player1.dy;
-    }else{
-      player1.dy = 0;
-      player1.slidingY = false;
-    }
-  }else{
+  
     if(player1.leftRightClear()){
     player1.x+=player1.dx;
     }
     if(player1.upDownClear()){
       player1.y+=player1.dy;
     }
-  }
+  
   
   //use item
   if(grid[player1.x/40][player1.y/40].getState() == 1){
@@ -121,29 +107,13 @@ void draw(){
 
 void keyReleased() {
   if(keyCode== UP){
-    if(player1.dx == 0){
-      player1.slidingY = true;
-    }else{
       player1.dy = 0;
-    }
   }else if(keyCode == DOWN){
-    if(player1.dx == 0){
-      player1.slidingY = true;
-    }else{
       player1.dy = 0;
-    }
   }else if(keyCode == LEFT){
-    if(player1.dy == 0){
-      player1.slidingX = true;
-    }else{
       player1.dx = 0;
-    }
   }else if(keyCode == RIGHT){
-    if(player1.dy == 0){
-      player1.slidingX = true;
-    }else{
       player1.dx = 0;
-    }
   }else if(key == ' '){
     
   }

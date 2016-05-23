@@ -2,7 +2,6 @@ class Character implements Drawable{
   int x,y,dx,dy,health,speed,timer;
   int status;//0 = normal, 1 = damaged
   color iro;
-  boolean slidingX,slidingY;
   int radius; 
   
   Character(int x,int y,int dx,int dy){
@@ -14,15 +13,13 @@ class Character implements Drawable{
     speed = 2;
     health = 3;
     radius = 1;
-    slidingX = false;
-    slidingY = false;
   }
   int getRad(){
     return radius;
   }
   void useItem(int itemType){
    if(itemType == 0){
-     speed+=0.5;
+     speed+=1;
      System.out.println("Used speed skates");
     }
    else{ //itemType == 1
