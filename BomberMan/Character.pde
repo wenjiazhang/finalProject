@@ -22,7 +22,7 @@ class Character implements Drawable{
   }
   void useItem(int itemType){
    if(itemType == 0){
-     speed+=.5;
+     speed+=0.5;
      System.out.println("Used speed skates");
     }
    else{ //itemType == 1

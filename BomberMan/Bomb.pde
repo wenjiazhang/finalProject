@@ -4,8 +4,8 @@ class Bomb implements Drawable,Volatile{
  int radius;
  
  Bomb(int x,int y,int team,int rad){
-   this.x = x;
-   this.y = y;
+   this.x = getTile(x,y).x+20;
+   this.y = getTile(x,y).y+20;
    this.team = team;
    radius = rad;
    time = millis();
