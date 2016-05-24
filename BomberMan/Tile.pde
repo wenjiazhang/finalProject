@@ -2,7 +2,7 @@
       int x,y; //location
       int state; //has block, had block, never had block 
       boolean Broken;
-      int itemType; //speed Upgrade, or bomb Upgrade 
+      int itemType; //speed Upgrade, or bomb Upgrade, or none
       PImage img;
       
     Tile(int x, int y, int state, int IT){
@@ -13,7 +13,7 @@
       if(itemType == 0){
         img = loadImage("speedUp.jpg");
       }
-      else{
+      else if(itemType ==1){
         img = loadImage("bombUp.png");
       }
     }
@@ -31,15 +31,15 @@
       System.out.println("tile at " + x + "/" + y + "is now at state " + state);
     }
     void draw(){
-      if(state == 1){
+      if(state == 1 && itemType != 2){
         noFill();
         image(img,x,y,40,40);
       }
-      else if(state == 0){
-        fill(#FFFFFF);
+      else if(state == 2){
+        fill(0,0,0);
       }
       else{
-        fill(0,0,0);
+        fill(#FFFFFF);
       }
       rect(x+20,y+20,40,40);
       //image(photo,x,y);

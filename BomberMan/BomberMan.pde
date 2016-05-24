@@ -15,7 +15,7 @@ void setup(){
   background = color(0,0,200);
    for(int i = 0;i<grid.length;i++){
     for(int index = 0;index<grid[0].length;index++){
-      grid[i][index] = new Tile(i*40, index*40,(int)(Math.random()*2)*2,(int)(Math.random()*2));
+      grid[i][index] = new Tile(i*40, index*40,(int)(Math.random()*2)*2,(int)(Math.random()*3));
       toDraw.add(grid[i][index]);
       //System.out.println("Tile added!");
     }
@@ -122,12 +122,16 @@ void keyReleased() {
 void keyPressed() {
   if(keyCode== UP && player1.dx ==0){
     player1.dy = -player1.speed;
+    player1.autoTurn(0);
   }else if(keyCode == DOWN && player1.dx ==0){
     player1.dy = player1.speed;
+    player1.autoTurn(1);
   }else if(keyCode == LEFT && player1.dy ==0){
     player1.dx = -player1.speed;
+    player1.autoTurn(2);
   }else if(keyCode == RIGHT && player1.dy ==0){
     player1.dx = player1.speed;
+    player1.autoTurn(3);
   }else if(key == ' '){
     Bomb temp = new Bomb(player1.x,player1.y,1,player1.radius);
     explosives.add(temp);

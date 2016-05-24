@@ -22,7 +22,7 @@ class Character implements Drawable{
      speed+=1;
      System.out.println("Used speed skates");
     }
-   else{ //itemType == 1
+   else if(itemType == 1){
      System.out.println("going to use firePowUp");
      radius++;
    }  
@@ -68,5 +68,21 @@ class Character implements Drawable{
     health--;
     status = 1;
     timer = millis();
+  }
+  
+   void autoTurn(int direct){
+    if(direct == 0 ||direct == 1){
+      if(this.upDownClear() && Math.abs(x - getTile(x,y).x-20) <= 10){
+        this.x = getTile(x,y).x+20;
+      }else{
+       dy = 0; 
+      }
+    }else if(direct == 2 ||direct == 3){
+      if(this.leftRightClear() && Math.abs(y - getTile(x,y).y-20) <= 10){
+        this.y = getTile(x,y).y+20;
+      }else{
+       dx = 0; 
+      }
+    }
   }
 }
