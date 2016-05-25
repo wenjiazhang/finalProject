@@ -67,23 +67,37 @@ void draw(){
     if(explosives.get(i).countDown()){
       int x = explosives.get(i).getX();
       int y = explosives.get(i).getY();
-      int rad = explosives.get(i).getRadius();
+      //int rad = explosives.get(i).getRadius();
       explosives.get(i).explode();
       System.out.println("x/y: " + x + "/" + y);
-      for(int inc = 1;inc<rad+1;inc++){
-        if(grid[x/40+inc][y/40].getState() == 2){
-          grid[x/40+inc][y/40].setState(1);
+      //only if we decide to make a superFirePowerUp
+      //for(int inc = 1;inc<rad+1;inc++){
+      //  if(grid[x/40+inc][y/40].getState() == 2){
+      //    grid[x/40+inc][y/40].setState(1);
+      //  }
+      //  if(grid[x/40-inc][y/40].getState() == 2){
+      //    grid[x/40-inc][y/40].setState(1);
+      //  }
+      //  if(grid[x/40][y/40+inc].getState() == 2){ //<>//
+      //    grid[x/40][y/40+inc].setState(1);
+      //  }
+      //  if(grid[x/40][y/40-inc].getState() == 2){
+      //    grid[x/40][y/40-inc].setState(1);
+      //  }
+      //}
+        if(grid[x/40+1][y/40].getState() == 2){
+          grid[x/40+1][y/40].setState(1);
         }
-        if(grid[x/40-inc][y/40].getState() == 2){
-          grid[x/40-inc][y/40].setState(1);
+        if(grid[x/40-1][y/40].getState() == 2){
+          grid[x/40-1][y/40].setState(1);
         }
-        if(grid[x/40][y/40+inc].getState() == 2){ //<>//
-          grid[x/40][y/40+inc].setState(1);
+        if(grid[x/40][y/40+1].getState() == 2){
+          grid[x/40][y/40+1].setState(1);
         }
-        if(grid[x/40][y/40-inc].getState() == 2){
-          grid[x/40][y/40-inc].setState(1);
+        if(grid[x/40][y/40-1].getState() == 2){
+          grid[x/40][y/40-1].setState(1);
         }
-      }
+        
       i--;
     }
   }

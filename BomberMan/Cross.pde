@@ -20,13 +20,38 @@ class Cross implements Drawable,Volatile{
   int getY(){
     return y;
   }
-  
+  int upToHere(String dir){
+    int rad = size/2;
+    for(int inc = 2;inc<rad+1;inc++){
+      if(dir.equals("right")){
+        if(grid[x/40+inc][y/40].getState() == 2){
+            return (inc-1)*2 ;
+        }
+      }
+      if(dir.equals("left")){
+        if(grid[x/40-inc][y/40].getState() == 2){
+            return (inc-1)*2;
+        }
+      }
+      if(dir.equals("up")){
+        if(grid[x/40][y/40-inc].getState() == 2){
+            return (inc-1)*2;
+        }
+      }
+      else{ //string is down
+        if(grid[x/40][y/40+inc].getState() == 2){
+          return (inc-1)*2;
+        }
+      }
+    }
+    return 3;
+  }
   void draw(){
     fill(30,200,230);
-    rect(x,y-(size*10),10,size*20);
-    rect(x,y+(size*10),10,size*20);
-    rect(x-(size*10),y,size*20,10);
-    rect(x+(size*10),y,size*20,10);
+    rect(x,y-(upToHere("up")*10),10,(upToHere("up")*20));
+    rect(x,y+(upToHere("down")*10),10,(upToHere("down")*20));
+    rect(x-(upToHere("left")*10),y,(upToHere("left")*20),10);
+    rect(x+(upToHere("right")*10),y,(upToHere("right")*20),10);
   }
   
   boolean countDown(){
