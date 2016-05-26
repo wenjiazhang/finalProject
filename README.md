@@ -1,11 +1,12 @@
 # finalProject
 Second term final project with Wendy and Kelly
 
-Team Name: Fire AWAYY (temporary)
+Project Name: Exploding Kittens-a BomberMan remake
+Team Name: Vet ER
 
 Project Description: BomberMan. Goal is to be the last one standing by killing all other characters and players. Secondary Goal is to get the highest score possible. Your score increases with the number of walls you destroy, the number of upgrades you obtain, and the number of people you kill.
 
-How To Play: To Move, use the up, down, left and right arrows on your keyboard. In 2-Player Mode, the 2nd player will use the arrows while the 1st uses A, S, D, W. To drop a bomb, hit the space bar! Walls are Blue and Regular Tiles are Purple and Pink. Good luck!
+How To Play: To Move, use the up, down, left and right arrows on your keyboard. In 2-Player Mode, the 2nd player will use the arrows while the 1st uses A, S, D, W. To drop a bomb, hit the space bar! Good luck!
 
 Day by Day Log:
 
