@@ -7,6 +7,12 @@ ArrayList<Volatile> explosives = new ArrayList<Volatile>();
 ArrayList<Character> chars = new ArrayList<Character>();
 Tile[][] grid;
 //Item[][] itemGrid;
+boolean inGrid(int xcor, int ycor){
+  if(xcor< 0 || xcor>grid.length ||  ycor < 0 || ycor>grid[0].length){
+    return false;
+  }
+  return true;
+}
 void setup(){
   colorMode(HSB);
   state = 0;
