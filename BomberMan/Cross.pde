@@ -25,27 +25,28 @@ class Cross implements Drawable,Volatile{
     for(int inc = 2;inc<rad+1;inc++){
       if(dir.equals("right")){
         if(grid[x/40+inc][y/40].getState() == 2){
-            return (inc-1)*2 ;
+            return (inc-1)*2 + 1;
         }
       }
       if(dir.equals("left")){
         if(grid[x/40-inc][y/40].getState() == 2){
-            return (inc-1)*2;
+            return (inc-1)*2 + 1;
         }
       }
       if(dir.equals("up")){
         if(grid[x/40][y/40-inc].getState() == 2){
-            return (inc-1)*2;
+            return (inc-1)*2 + 1;
         }
       }
       else{ //string is down
         if(grid[x/40][y/40+inc].getState() == 2){
-          return (inc-1)*2;
+          return (inc-1)*2+1;
         }
-      }
+      } 
     }
-    return 3;
+    return size;
   }
+  
   void draw(){
     fill(30,200,230);
     rect(x,y-(upToHere("up")*10),10,(upToHere("up")*20));
