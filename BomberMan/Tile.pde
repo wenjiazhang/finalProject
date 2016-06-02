@@ -31,7 +31,7 @@
       System.out.println("tile at " + x + "/" + y + "is now at state " + state);
     }
     void draw(){
-      if(state == 1 && itemType != 2){
+      if(state == 1 && itemType < 2){
         noFill();
         image(img,x,y,40,40);
       }

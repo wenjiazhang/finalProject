@@ -1,11 +1,18 @@
 import java.lang.Math;
-static int state;
+import java.util.Scanner;
+import java.io.FileNotFoundException;
+static int state; //when state = 2, goes to you lose page
 color background;
 Player player1;
+int score; //WENDY I ADDED THIS (increases by the number of 
+//blocks you destroy and later on, when you hit another player);
+Scanner sc;
 ArrayList<Drawable> toDraw = new ArrayList<Drawable>();
 ArrayList<Volatile> explosives = new ArrayList<Volatile>();
 ArrayList<Character> chars = new ArrayList<Character>();
 Tile[][] grid;
+BufferedReader reader;
+String line;
 //Item[][] itemGrid;
 boolean inGrid(int xcor, int ycor){
   if(xcor< 0 || xcor>grid.length ||  ycor < 0 || ycor>grid[0].length){
@@ -16,16 +23,29 @@ boolean inGrid(int xcor, int ycor){
 void setup(){
   colorMode(HSB);
   state = 0;
+  score = 0;
   size(640, 480);
+  //File f = new File("~/finalProject/BomberMan/data/stage01.dat");
+  reader = createReader("stage01.dat");
   grid = new Tile[width/40][height/40];
-  background = color(0,0,200);
-   for(int i = 0;i<grid.length;i++){
+  for(int i = 0;i<grid.length;i++){
+  try{
+    line = reader.readLine();
+  }catch(IOException e){
+    e.printStackTrace();
+    line = null;
+  }
+  if(line != null){
+    int[]States = int(split(line, ' '));
     for(int index = 0;index<grid[0].length;index++){
-      grid[i][index] = new Tile(i*40, index*40,(int)(Math.random()*2)*2,(int)(Math.random()*3));
+      grid[i][index] = new Tile(i*40, index*40,States[index],(int)(Math.random()*5));
       toDraw.add(grid[i][index]);
       //System.out.println("Tile added!");
     }
+  }
   } 
+  background = color(0,0,200);
+   
   //to prevent character starting off on wall
   int row = 1;
   int col = 1;
@@ -43,10 +63,12 @@ void draw(){
   background(background);
   //<>// //<>//
   //get input
-  
+  if(player1.health == 0){
+    state = 2; //you're dead
+  }
   //change states
   //player movement
-  
+    
     if(player1.leftRightClear()){
     player1.x+=player1.dx;
     }
@@ -68,6 +90,7 @@ void draw(){
       
       if(((Cross)explosives.get(i)).inBlast(player1.x,player1.y) && player1.status == 0){
         player1.takeDamage();
+        score -= 10;
       }
     }   
     if(explosives.get(i).countDown()){
@@ -91,19 +114,30 @@ void draw(){
       //    grid[x/40][y/40-inc].setState(1);
       //  }
       //}
+      if(inGrid(x/40+1,y/40)){
         if(grid[x/40+1][y/40].getState() == 2){
           grid[x/40+1][y/40].setState(1);
+          score+= 20;
         }
+      }
+      if(inGrid(x/40-1,y/40)){
         if(grid[x/40-1][y/40].getState() == 2){
           grid[x/40-1][y/40].setState(1);
+          score+= 20;
         }
+      }
+      if(inGrid(x/40,y/40+1)){
         if(grid[x/40][y/40+1].getState() == 2){
           grid[x/40][y/40+1].setState(1);
+          score+= 20;
         }
+      }
+      if(inGrid(x/40,y/40-1)){
         if(grid[x/40][y/40-1].getState() == 2){
           grid[x/40][y/40-1].setState(1);
+          score+= 20;
         }
-        
+      }
       i--;
     }
   }
@@ -116,11 +150,18 @@ void draw(){
   fill(0,200,200);
   textSize(20);
   text("Health: "+player1.health, 0,40);
+  text("Score: " + score, 100,40);
   if (state == 0){
     
   }else if(state ==1){
     
   }else{
+    background(#D3BCE3);
+    fill(0,200,200);
+    textSize(100);
+    text("YOU LOSE!",80, height/2);
+    textSize(40);
+    text("Your score is: " + score, 80, height/2 + 100);
     
   }
 }
