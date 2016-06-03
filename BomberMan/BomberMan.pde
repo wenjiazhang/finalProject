@@ -1,12 +1,10 @@
 import java.lang.Math;
-import java.util.Scanner;
 import java.io.FileNotFoundException;
 static int state; //when state = 2, goes to you lose page
 color background;
 Player player1;
 int score; //WENDY I ADDED THIS (increases by the number of 
 //blocks you destroy and later on, when you hit another player);
-Scanner sc;
 ArrayList<Drawable> toDraw = new ArrayList<Drawable>();
 ArrayList<Volatile> explosives = new ArrayList<Volatile>();
 ArrayList<Character> chars = new ArrayList<Character>();
@@ -49,7 +47,7 @@ void setup(){
   //to prevent character starting off on wall
   int row = 1;
   int col = 1;
-  while(grid[row][col].getState() == 2){
+  while(grid[row][col].getState() >= 2){
     col++;
   }
   player1 = new Player(row*40+20,col*40+20,0,0,0);
@@ -115,26 +113,30 @@ void draw(){
       //  }
       //}
       if(inGrid(x/40+1,y/40)){
-        if(grid[x/40+1][y/40].getState() == 2){
-          grid[x/40+1][y/40].setState(1);
+        int tempState = grid[x/40+1][y/40].getState();
+        if(tempState >= 2){
+          grid[x/40+1][y/40].setState(tempState-1);
           score+= 20;
         }
       }
       if(inGrid(x/40-1,y/40)){
-        if(grid[x/40-1][y/40].getState() == 2){
-          grid[x/40-1][y/40].setState(1);
+        int tempState = grid[x/40-1][y/40].getState();
+        if(tempState >= 2){
+          grid[x/40-1][y/40].setState(tempState-1);
           score+= 20;
         }
       }
       if(inGrid(x/40,y/40+1)){
-        if(grid[x/40][y/40+1].getState() == 2){
-          grid[x/40][y/40+1].setState(1);
+        int tempState = grid[x/40][y/40+1].getState();
+        if(tempState >= 2){
+          grid[x/40][y/40+1].setState(tempState-1);
           score+= 20;
         }
       }
       if(inGrid(x/40,y/40-1)){
-        if(grid[x/40][y/40-1].getState() == 2){
-          grid[x/40][y/40-1].setState(1);
+        int tempState = grid[x/40][y/40-1].getState();
+        if(tempState >= 2){
+          grid[x/40][y/40-1].setState(tempState-1);
           score+= 20;
         }
       }
