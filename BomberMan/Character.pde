@@ -1,14 +1,15 @@
 class Character implements Drawable{
   int x,y,dx,dy,health,speed,timer;
   int status;//0 = normal, 1 = damaged
-  color iro;
+  int iro;
   int radius; 
   
-  Character(int x,int y,int dx,int dy){
+  Character(int x,int y,int dx,int dy,int col){
     this.x=x;
     this.y=y;
     this.dx=dx;
     this.dy=dy;
+    iro = col;
     status = 0;
     speed = 2;
     health = 3;
@@ -31,7 +32,7 @@ class Character implements Drawable{
    if(status ==1 && millis() - timer >= 1500){
       status = 0;
     }
-   fill(0,200,200);
+   fill(iro,200,200);
    if(status ==0 || (int)(millis() - timer)/250%2==0){
      rect(x,y,40,40);
    }
