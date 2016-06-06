@@ -32,8 +32,10 @@
     }
     void draw(){
       if(state == 1 && itemType < 2){
-        noFill();
+        fill(#FFFFFF);
+        rect(x+20,y+20,40,40);
         image(img,x+20,y+20,40,40);
+        noFill();
       }
       else if(state == 2){
         fill(0,0,0);
