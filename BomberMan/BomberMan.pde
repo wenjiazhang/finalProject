@@ -1,3 +1,10 @@
+/*
+
+KELLY! please work on the probability of items dropping, it's wayy too high at htis point
+Also try to come up with an easier way to place 4 characters on the stage.
+maybe always leave each of the four corners empty in your stage designs
+
+*/
 import java.lang.Math;
 import java.io.FileNotFoundException;
 static int state; //// 0=main menu 1=in-game 2=lose 3=pause
