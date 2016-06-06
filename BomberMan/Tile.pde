@@ -11,7 +11,7 @@
       this.state = state; //starts off as 0 or 2 (cannot start off with item)
       itemType = IT;
       if(itemType == 0){
-        img = loadImage("speedUp.jpg");
+        img = loadImage("speedUp.png");
       }
       else if(itemType ==1){
         img = loadImage("bombUp.png");
@@ -33,14 +33,14 @@
     void draw(){
       if(state == 1 && itemType < 2){
         noFill();
-        image(img,x,y,40,40);
+        image(img,x+20,y+20,40,40);
       }
       else if(state == 2){
         fill(0,0,0);
       }
-      else if(state == 3){
+      /*else if(state == 3){
         fill(#1F11F0);
-      }
+      }*/
       else{
         fill(#FFFFFF);
       }

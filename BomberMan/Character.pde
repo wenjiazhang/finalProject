@@ -1,19 +1,24 @@
 class Character implements Drawable{
   int x,y,dx,dy,health,speed,timer;
   int status;//0 = normal, 1 = damaged
-  int iro;
-  int radius; 
+  int iro,radius;
+  int facing; //0=south 1=west 2=north 3=east
+  char col;
+  PImage sprite;
   
-  Character(int x,int y,int dx,int dy,int col){
+  Character(int x,int y,int dx,int dy,int iro,char col){
     this.x=x;
     this.y=y;
     this.dx=dx;
     this.dy=dy;
-    iro = col;
+    this.iro = iro;
+    this.col = col;
     status = 0;
     speed = 2;
     health = 3;
     radius = 1;
+    facing = 0;
+    sprite = loadImage("Rfront0.png");
   }
   int getRad(){
     return radius;
@@ -32,9 +37,20 @@ class Character implements Drawable{
    if(status ==1 && millis() - timer >= 1500){
       status = 0;
     }
-   fill(iro,200,200);
-   if(status ==0 || (int)(millis() - timer)/250%2==0){
-     rect(x,y,40,40);
+   String dir;
+   if(facing==0){
+     dir = "front";
+   }else if(facing==1){
+     dir = "left"; 
+   }else if(facing==2){
+     dir = "back";
+   }else{
+    dir = "right"; 
+   }
+   if((int)(millis() - timer)/250%2==0 || (dy==0 && dx==0 && status ==0)){
+     image(loadImage(col+dir+0+".png"),x,y-5);
+   }else if(status!=1){
+     image(loadImage(col+dir+1+".png"),x,y-5);
    }
 }
 

@@ -22,8 +22,8 @@ void setup(){
   noStroke();
   ellipseMode(CENTER);
   rectMode(CENTER);
+  imageMode(CENTER);
   size(640, 480);
-  colorMode(HSB);
   
   //initiate vars
   state = 0;
@@ -197,15 +197,19 @@ void keyPressed() {
     if(keyCode== UP && player1.dx ==0){
       player1.dy = -player1.speed;
       player1.autoTurn(0);
+      player1.facing = 2;
     }else if(keyCode == DOWN && player1.dx ==0){
       player1.dy = player1.speed;
       player1.autoTurn(1);
+      player1.facing = 0;
     }else if(keyCode == LEFT && player1.dy ==0){
       player1.dx = -player1.speed;
       player1.autoTurn(2);
+      player1.facing = 1;
     }else if(keyCode == RIGHT && player1.dy ==0){
       player1.dx = player1.speed;
       player1.autoTurn(3);
+      player1.facing = 3;
     }else if(key == ' '){
       Bomb temp = new Bomb(player1.x,player1.y,1,player1.radius);
       explosives.add(temp);
@@ -241,14 +245,14 @@ void placeChars(){
   while(grid[row][col].getState() == 2){
     col++;
   }
-  player1 = new Player(row*40+20,col*40+20,0,0,0);
+  player1 = new Player(row*40+20,col*40+20,0,0);
   
   col=width/40-1;
   row = 0;
   while(grid[col][row].getState() == 2){
     col--;
   }
-  Character player2 = new Character(col*40+20,row*40+20,0,0,155);
+  Character player2 = new Character(col*40+20,row*40+20,0,0,155,'B');
   
   chars.add(player2);
   toDraw.add(player1);
