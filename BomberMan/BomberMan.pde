@@ -138,21 +138,21 @@ void draw(){
       }
       if(inGrid(x/40-1,y/40)){
         int tempState = grid[x/40-1][y/40].getState();
-        if(tempState >= 2){
+        if(tempState >= 2 && tempState != 4){
           grid[x/40-1][y/40].setState(tempState-1);
           score+= 20;
         }
       }
       if(inGrid(x/40,y/40+1)){
         int tempState = grid[x/40][y/40+1].getState();
-        if(tempState >= 2){
+        if(tempState >= 2 && tempState != 4){
           grid[x/40][y/40+1].setState(tempState-1);
           score+= 20;
         }
       }
       if(inGrid(x/40,y/40-1)){
         int tempState = grid[x/40][y/40-1].getState();
-        if(tempState >= 2){
+        if(tempState >= 2 && tempState != 4){
           grid[x/40][y/40-1].setState(tempState-1);
           score+= 20;
         }
@@ -175,13 +175,35 @@ void draw(){
     text("Health: "+player1.health, 0,40);
     text("Score: " + score, 100,40);
   }//closes else if(state == 1)
-  else if(state ==2){
+  else if(state == 2){
     background(#D3BCE3);
-    fill(0,200,200);
-    textSize(100);
-    text("YOU LOSE!",80, height/2);
+    //fill(0,200,200);
+    //textSize(100);
+    //text("YOU LOSE!",80, height/2);
+    PImage endPg = loadImage("loseImage.jpg");
+    PImage catMeme = loadImage("catMeme.jpg");
+    PImage bomb = loadImage("bomb.jpg");
+    PImage wings = loadImage("wings.png");
+    image(endPg, width/2, height/2-100 ,width,height);
+    image(catMeme, width/2, height/2 + 70, 200,200);
+    for(int i = 0;i<12;i++){
+      if(i % 2 == 0){
+        image(bomb,20,i*40+20,40,40);
+      }
+      else{
+        image(wings,20,i*40+20,40,40);
+      }
+    }
+    for(int i = 0;i<12;i++){
+      if(i % 2 == 0){
+        image(bomb,620,i*40+20,40,40);
+      }
+      else{
+        image(wings,620,i*40+20,40,40);
+      }
+    }
     textSize(40);
-    text("Your score is: " + score, 80, height/2 + 100);
+    text("Your score is: " + score, 120, 420);
     
   }else{
     
