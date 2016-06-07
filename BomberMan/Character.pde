@@ -56,11 +56,11 @@ class Character implements Drawable{
 
   boolean leftRightClear(){
     if(dx<0){
-     if(x-21<0 || getTile(x-21,y).getState() == 2){
+     if(x-21<0 || getTile(x-21,y).getState() >= 2){
        return false;
      }
     }else{
-      if(x+21>width || getTile(x+21,y).getState() == 2){
+      if(x+21>width || getTile(x+21,y).getState() >= 2){
        return false;
      }
     }
@@ -69,11 +69,11 @@ class Character implements Drawable{
   
   boolean upDownClear(){
    if(dy<0){
-     if(y-21<0 || getTile(x,y-21).getState() == 2){
+     if(y-21<0 || getTile(x,y-21).getState() >= 2){
        return false;
      }
     }else{
-      if(y+21>height || getTile(x,y+21).getState() == 2){
+      if(y+21>height || getTile(x,y+21).getState() >= 2){
        return false;
      }
     }
