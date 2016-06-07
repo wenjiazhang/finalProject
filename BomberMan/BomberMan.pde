@@ -9,7 +9,7 @@ import java.lang.Math;
 import java.io.FileNotFoundException;
 static int state; //// 0=main menu 1=in-game 2=lose 3=pause
 color background;
-Player player1;
+Player player1, player2;
 int score; //WENDY I ADDED THIS (increases by the number of 
 //blocks you destroy and later on, when you hit another player);
 BufferedReader reader;
@@ -63,6 +63,7 @@ void setup(){
   buttons.add(0,new ArrayList<Button>());
   buttons.get(0).add(new Button(width/20,height/3,"Play",20,color(0,0,0),color(0,0,100)));
   buttons.get(0).add(new Button(width/20,height/3+40,"Exit",20,color(0,0,0),color(0,0,100)));
+  buttons.get(0).add(new Button(width/20,height/3+80,"Lose",20, color(0,0,0),color(0,0,100)));
   background = color(0,0,200);
    
   //method calls
@@ -223,6 +224,17 @@ void keyReleased() {
     }else if(key == ' '){
       
     }
+    else if(key == 'w'){
+        player2.dy = 0;
+    }else if(key == 's'){
+        player2.dy = 0;
+    }else if(key == 'a'){
+        player2.dx = 0;
+    }else if(key == 'd'){
+        player2.dx = 0;
+    }else if(keyCode == CONTROL){
+      
+    }
   }
 }
 
@@ -249,6 +261,27 @@ void keyPressed() {
       explosives.add(temp);
       toDraw.add(temp);
     }
+    else if(keyCode== 'w' && player2.dx ==0){
+      player2.dy = -player2.speed;
+      player2.autoTurn(0);
+      player2.facing = 2;
+    }else if(key == 's' && player1.dx ==0){
+      player2.dy = player2.speed;
+      player2.autoTurn(1);
+      player2.facing = 0;
+    }else if(key == 'a' && player2.dy ==0){
+      player2.dx = -player2.speed;
+      player2.autoTurn(2);
+      player2.facing = 1;
+    }else if(key == 'd' && player2.dy ==0){
+      player2.dx = player2.speed;
+      player2.autoTurn(3);
+      player2.facing = 3;
+    }else if(key == CONTROL){
+      Bomb temp = new Bomb(player2.x,player2.y,2,player2.radius);
+      explosives.add(temp);
+      toDraw.add(temp);
+    }
   }
 }
 
@@ -258,6 +291,9 @@ void mousePressed(){
       state = 1;
     }else if(buttons.get(0).get(1).over()){
       exit();
+    }
+    else if(buttons.get(0).get(2).over()){
+      state = 2;
     }
   }
 }
