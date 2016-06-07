@@ -40,9 +40,12 @@
       else if(state == 2){
         fill(0,0,0);
       }
-      /*else if(state == 3){
+      else if(state == 3){
         fill(#1F11F0);
-      }*/
+      }
+      else if(state == 4){
+        fill(#FC2A05);
+      }
       else{
         fill(#FFFFFF);
       }

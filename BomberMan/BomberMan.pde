@@ -109,57 +109,61 @@ void draw(){
         }
       }   
       if(explosives.get(i).countDown()){
-        int x = explosives.get(i).getX();
-        int y = explosives.get(i).getY();
-        //int rad = explosives.get(i).getRadius();
-        explosives.get(i).explode();
-        System.out.println("x/y: " + x + "/" + y);
-        //only if we decide to make a superFirePowerUp
-        //for(int inc = 1;inc<rad+1;inc++){
-        //  if(grid[x/40+inc][y/40].getState() == 2){
-        //    grid[x/40+inc][y/40].setState(1);
-        //  }
-        //  if(grid[x/40-inc][y/40].getState() == 2){
-        //    grid[x/40-inc][y/40].setState(1);
-        //  }
-        //  if(grid[x/40][y/40+inc].getState() == 2){ //<>//
-        //    grid[x/40][y/40+inc].setState(1);
-        //  }
-        //  if(grid[x/40][y/40-inc].getState() == 2){
-        //    grid[x/40][y/40-inc].setState(1);
-        //  }
-        //}
-        if(inGrid(x/40+1,y/40)){
-          int tempState = grid[x/40+1][y/40].getState();
-          if(tempState >= 2){
-            grid[x/40+1][y/40].setState(tempState-1);
-            score+= 20;
-          }
+      int x = explosives.get(i).getX();
+      int y = explosives.get(i).getY();
+      //int rad = explosives.get(i).getRadius();
+
+      //only if we decide to make a superFirePowerUp
+      //for(int inc = 1;inc<rad+1;inc++){
+      //  if(grid[x/40+inc][y/40].getState() == 2){
+      //    grid[x/40+inc][y/40].setState(1);
+      //  }
+      //  if(grid[x/40-inc][y/40].getState() == 2){
+      //    grid[x/40-inc][y/40].setState(1);
+      //  }
+      //  if(grid[x/40][y/40+inc].getState() == 2){
+      //    grid[x/40][y/40+inc].setState(1);
+      //  }
+      //  if(grid[x/40][y/40-inc].getState() == 2){
+      //    grid[x/40][y/40-inc].setState(1);
+      //  }
+      //}
+      if(explosives.get(i) instanceof Bomb){
+      if(inGrid(x/40+1,y/40)){
+        int tempState = grid[x/40+1][y/40].getState();
+        if(tempState >= 2 && tempState != 4){
+          grid[x/40+1][y/40].setState(tempState-1);
+          score+= 20;
         }
-        if(inGrid(x/40-1,y/40)){
-          int tempState = grid[x/40-1][y/40].getState();
-          if(tempState >= 2){
-            grid[x/40-1][y/40].setState(tempState-1);
-            score+= 20;
-          }
-        }
-        if(inGrid(x/40,y/40+1)){
-          int tempState = grid[x/40][y/40+1].getState();
-          if(tempState >= 2){
-            grid[x/40][y/40+1].setState(tempState-1);
-            score+= 20;
-          }
-        }
-        if(inGrid(x/40,y/40-1)){
-          int tempState = grid[x/40][y/40-1].getState();
-          if(tempState >= 2){
-            grid[x/40][y/40-1].setState(tempState-1);
-            score+= 20;
-          }
-        }
-        i--;
       }
+      if(inGrid(x/40-1,y/40)){
+        int tempState = grid[x/40-1][y/40].getState();
+        if(tempState >= 2){
+          grid[x/40-1][y/40].setState(tempState-1);
+          score+= 20;
+        }
+      }
+      if(inGrid(x/40,y/40+1)){
+        int tempState = grid[x/40][y/40+1].getState();
+        if(tempState >= 2){
+          grid[x/40][y/40+1].setState(tempState-1);
+          score+= 20;
+        }
+      }
+      if(inGrid(x/40,y/40-1)){
+        int tempState = grid[x/40][y/40-1].getState();
+        if(tempState >= 2){
+          grid[x/40][y/40-1].setState(tempState-1);
+          score+= 20;
+        }
+      }
+      }
+      explosives.get(i).explode();
+      System.out.println("x/y: " + x + "/" + y);
+      i--;
     }
+    }
+ //<>//
     
     //draw
     //player1.draw();
@@ -170,7 +174,8 @@ void draw(){
     textSize(20);
     text("Health: "+player1.health, 0,40);
     text("Score: " + score, 100,40);
-  }else if(state ==2){
+  }//closes else if(state == 1)
+  else if(state ==2){
     background(#D3BCE3);
     fill(0,200,200);
     textSize(100);
@@ -249,14 +254,14 @@ boolean inGrid(int xcor, int ycor){
 void placeChars(){
   int row = 1;
   int col = 1;
-  while(grid[row][col].getState() == 2){
+  while(grid[row][col].getState() >= 2){
     col++;
   }
   player1 = new Player(row*40+20,col*40+20,0,0);
   
   col=width/40-1;
   row = 0;
-  while(grid[col][row].getState() == 2){
+  while(grid[col][row].getState() >= 2){
     col--;
   }
   Character player2 = new Character(col*40+20,row*40+20,0,0,155,'B');
