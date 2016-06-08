@@ -1,13 +1,6 @@
-/*
-
-KELLY! please work on the probability of items dropping, it's wayy too high at htis point
-Also try to come up with an easier way to place 4 characters on the stage.
-maybe always leave each of the four corners empty in your stage designs
-
-*/
 import java.lang.Math;
 import java.io.FileNotFoundException;
-static int state; //// 0=main menu 1=in-game 2=lose 3=pause
+static int state; //// 0=main menu 1=in-game pvp 2=in-game ai 3=lose 4=win 5=mode select 6=char select 7=pause
 color background;
 Player player1, player2;
 int score; //WENDY I ADDED THIS (increases by the number of 
@@ -80,7 +73,9 @@ void draw(){
     background(background); //<>//
     //get input
     if(player1.health == 0){
-      state = 2; //you're dead
+      state = 3; //you're dead
+    }else if(chars.size()==1){
+      state = 4; //you win!
     }
     //change states
     //player movement
@@ -103,10 +98,15 @@ void draw(){
     for(int i=0;i<explosives.size();i++){
       if(explosives.get(i) instanceof Cross){
         System.out.println("cross radius is" + explosives.get(i).getRadius());
-        
-        if(((Cross)explosives.get(i)).inBlast(player1.x,player1.y) && player1.status == 0){
-          player1.takeDamage();
-          score -= 10;
+        for(int e=0;e<chars.size();e++){
+          if(((Cross)explosives.get(i)).inBlast(chars.get(e).x,player1.y) && chars.get(e).status == 0){
+            if(chars.get(e)==player1){
+              score -= 10;
+            }
+            if(chars.get(e).takeDamage()){
+             e--; 
+            }
+          }
         }
       }   
       if(explosives.get(i).countDown()){
@@ -175,8 +175,10 @@ void draw(){
     textSize(20);
     text("Health: "+player1.health, 0,40);
     text("Score: " + score, 100,40);
-  }//closes else if(state == 1)
-  else if(state == 2){
+  }else if(state == 2){
+    
+  }
+  else if(state == 3){
     background(#D3BCE3);
     //fill(0,200,200);
     //textSize(100);
@@ -206,8 +208,11 @@ void draw(){
     textSize(40);
     text("Your score is: " + score, 120, 420);
     
-  }else{
-    
+  }else if(state ==4){
+    background(0,0,255);
+    textSize(40);
+    fill(50,200,200);
+    text("You Win!! Your score is: " + score, 120, 240);
   }
 }
 
@@ -293,7 +298,7 @@ void mousePressed(){
       exit();
     }
     else if(buttons.get(0).get(2).over()){
-      state = 2;
+      state = 3;
     }
   }
 }
@@ -324,6 +329,7 @@ void placeChars(){
   }
   Character player2 = new Character(col*40+20,row*40+20,0,0,155,'B');
   
+  chars.add(player1);
   chars.add(player2);
   toDraw.add(player1);
   toDraw.add(player2);

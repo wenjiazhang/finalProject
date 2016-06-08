@@ -80,11 +80,17 @@ class Character implements Drawable{
     return true;
   }
   
-  void takeDamage(){
+  boolean takeDamage(){
     //System.out.println("HURT");
     health--;
     status = 1;
     timer = millis();
+    if(health==0){
+      toDraw.remove(this);
+      chars.remove(this);
+      return true;
+    }
+    return false;
   }
   
    void autoTurn(int direct){
