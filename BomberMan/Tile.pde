@@ -38,13 +38,13 @@
         noFill();
       }
       else if(state == 2){
-        fill(0,0,0);
+        fill(0,0,150);
       }
       else if(state == 3){
-        fill(#5005F5);
+        fill(0,0,100);
       }
       else if(state == 4){
-        fill(#FC2A05);
+        fill(0,0,50);
       }
       else{
         fill(#FFFFFF);
