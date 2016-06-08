@@ -262,7 +262,7 @@ void keyPressed() {
       player1.autoTurn(3);
       player1.facing = 3;
     }else if(key == ' '){
-      Bomb temp = new Bomb(player1.x,player1.y,1,player1.radius);
+      Bomb temp = new Bomb(player1.x,player1.y,'R',player1.radius);
       explosives.add(temp);
       toDraw.add(temp);
     }
@@ -283,7 +283,7 @@ void keyPressed() {
       player2.autoTurn(3);
       player2.facing = 3;
     }else if(key == CONTROL){
-      Bomb temp = new Bomb(player2.x,player2.y,2,player2.radius);
+      Bomb temp = new Bomb(player2.x,player2.y,'B',player2.radius);
       explosives.add(temp);
       toDraw.add(temp);
     }

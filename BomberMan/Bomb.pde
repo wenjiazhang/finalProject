@@ -1,14 +1,17 @@
 class Bomb implements Drawable,Volatile{
- int x,y,team;
+ int x,y;
  float time;
  int radius;
+ char team;
+ PImage sprite;
  
- Bomb(int x,int y,int team,int rad){
+ Bomb(int x,int y,char team,int rad){
    this.x = getTile(x,y).x+20;
    this.y = getTile(x,y).y+20;
    this.team = team;
    radius = rad;
    time = millis();
+   sprite = loadImage(team+"bomb.png");
  }
  int getX(){
    return x;
@@ -33,7 +36,7 @@ class Bomb implements Drawable,Volatile{
      fill(30,200,150);
    }
    if((int)(millis()-time)/250%2==0){
-     ellipse(x,y,10,10);
+    image(sprite,x,y);
    }
  }
  

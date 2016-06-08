@@ -64,11 +64,11 @@ class Cross implements Drawable,Volatile{
   }
   
   void draw(){
-    fill(30,200,230);
-    rect(x,y-(upToHere("up")*10),10,(upToHere("up")*20));
-    rect(x,y+(upToHere("down")*10),10,(upToHere("down")*20));
-    rect(x-(upToHere("left")*10),y,(upToHere("left")*20),10);
-    rect(x+(upToHere("right")*10),y,(upToHere("right")*20),10);
+    fill(30,100,250);
+    rect(x,y-(upToHere("up")*10),5,(upToHere("up")*20));
+    rect(x,y+(upToHere("down")*10),5,(upToHere("down")*20));
+    rect(x-(upToHere("left")*10),y,(upToHere("left")*20),5);
+    rect(x+(upToHere("right")*10),y,(upToHere("right")*20),5);
   }
   
   boolean countDown(){
