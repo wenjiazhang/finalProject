@@ -54,9 +54,15 @@ void setup(){
     buttons.set(i, new ArrayList<Button>());
   }
   buttons.add(0,new ArrayList<Button>());
+  buttons.add(1,new ArrayList<Button>());
+  buttons.add(2,new ArrayList<Button>());
+  buttons.add(3,new ArrayList<Button>());
   buttons.get(0).add(new Button(width/20,height/3,"Play",20,color(0,0,0),color(0,0,100)));
   buttons.get(0).add(new Button(width/20,height/3+40,"Exit",20,color(0,0,0),color(0,0,100)));
-  buttons.get(0).add(new Button(width/20,height/3+80,"Lose",20, color(0,0,0),color(0,0,100)));
+  buttons.get(0).add(new Button(width/20,height/3+80,"Lose!",20, color(0,0,0),color(0,0,100)));
+  buttons.get(0).add(new Button(width/20,height/3+120,"Win!",20, color(0,0,0),color(0,0,100)));
+  buttons.get(2).add(new Button(60,390,"Play Again!",20,color(#FF0505),color(0,0,100)));
+  buttons.get(3).add(new Button(60,390,"Play Again!",20,color(#FF0505),color(0,0,100)));
   background = color(0,0,200);
    
   //method calls
@@ -97,7 +103,7 @@ void draw(){
     //change bomb/cross states
     for(int i=0;i<explosives.size();i++){
       if(explosives.get(i) instanceof Cross){
-        System.out.println("cross radius is" + explosives.get(i).getRadius());
+        //System.out.println("cross radius is" + explosives.get(i).getRadius());
         for(int e=0;e<chars.size();e++){
           if(((Cross)explosives.get(i)).inBlast(chars.get(e).x,player1.y) && chars.get(e).status == 0){
             if(chars.get(e)==player1){
@@ -178,15 +184,12 @@ void draw(){
   }else if(state == 2){
     
   }
-  else if(state == 3){
-    background(#D3BCE3);
-    //fill(0,200,200);
-    //textSize(100);
-    //text("YOU LOSE!",80, height/2);
-    PImage endPg = loadImage("loseImage.jpg");
-    PImage catMeme = loadImage("catMeme.jpg");
+  else if(state == 3){ //lose page
     PImage bomb = loadImage("bomb.jpg");
     PImage wings = loadImage("wings.png");
+    background(#D3BCE3);
+    PImage endPg = loadImage("loseImage.jpg");
+    PImage catMeme = loadImage("catMeme.jpg");
     image(endPg, width/2, height/2-100 ,width,height);
     image(catMeme, width/2, height/2 + 70, 200,200);
     for(int i = 0;i<12;i++){
@@ -206,13 +209,40 @@ void draw(){
       }
     }
     textSize(40);
+    fill(#050000);
     text("Your score is: " + score, 120, 420);
-    
-  }else if(state ==4){
-    background(0,0,255);
+    for(Button butt : buttons.get(2)){
+      butt.draw();
+    }
+    }
+    else if(state == 4){//win page
+    PImage bomb = loadImage("bomb.jpg");
+    PImage wings = loadImage("wings.png");
+    PImage winMeme = loadImage("winMeme.jpg");
+    background(#D3BCE3);
+    image(winMeme, width/2, height/2-50 ,width-80,height-100);
+    for(int i = 0;i<12;i++){
+      if(i % 2 == 0){
+        image(bomb,20,i*40+20,40,40);
+      }
+      else{
+        image(wings,20,i*40+20,40,40);
+      }
+    }
+    for(int i = 0;i<12;i++){
+      if(i % 2 == 0){
+        image(bomb,620,i*40+20,40,40);
+      }
+      else{
+        image(wings,620,i*40+20,40,40);
+      }
+    }
     textSize(40);
-    fill(50,200,200);
-    text("You Win!! Your score is: " + score, 120, 240);
+    fill(#050000);
+    text("You Win!! Your score is: " + score, 60, 420);
+    for(Button butt : buttons.get(3)){
+      butt.draw();
+    }
   }
 }
 
@@ -300,6 +330,19 @@ void mousePressed(){
     else if(buttons.get(0).get(2).over()){
       state = 3;
     }
+    else if(buttons.get(0).get(3).over()){
+      state = 4;
+    }
+  }
+  else if(state == 3){
+    if(buttons.get(2).get(0).over()){
+      state = 0;
+    }
+  }
+  else if(state == 4){
+    if(buttons.get(3).get(0).over()){
+      state = 0;
+    }
   }
 }
 
@@ -308,7 +351,7 @@ Tile getTile(int xcor,int ycor){
 }
 
 boolean inGrid(int xcor, int ycor){
-  if(xcor< 0 || xcor>grid.length ||  ycor < 0 || ycor>grid[0].length){
+  if(xcor< 0 || xcor>grid.length - 1 ||  ycor < 0 || ycor>grid[0].length - 1){
     return false;
   }
   return true;
