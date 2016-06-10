@@ -1,4 +1,5 @@
 import java.lang.Math;
+import processing.sound.*;
 import java.io.FileNotFoundException;
 static int state; //// 0=main menu 1=in-game pvp 2=in-game ai 3=lose 4=win 5=mode select 6=char select pvp 7=char select ai
 color background;
@@ -8,6 +9,8 @@ int score; //WENDY I ADDED THIS (increases by the number of
 BufferedReader reader;
 String line;
 PImage mainmenu;
+SoundFile music;
+
 //Item[][] itemGrid;
 
 ArrayList<Drawable> toDraw = new ArrayList<Drawable>();
@@ -72,6 +75,9 @@ void setup(){
   buttons.get(4).add(new Button(width/3,height/3,"Player VS Player",20,color(0,0,150),color(0,0,200)));
   buttons.get(4).add(new Button(width/3,height/3+80,"Player VS Computer",20,color(0,0,150),color(0,0,200)));
   background = color(0,0,200);
+  music = new SoundFile(this, "mainmenu.mp3");
+  loop();
+  music.play();
   
   //method calls
   resetColors();
@@ -90,7 +96,7 @@ void draw(){
       mainmenu = loadImage("mainmenu3.png");
     }
     image(mainmenu,320,240);
-    for(Button butt : buttons.get(0)){
+    for(Button butt : buttons.get(0)){ //<>//
       butt.draw();
     }
   }else if(state == 1 || state == 2){
@@ -179,7 +185,7 @@ void draw(){
       }
       }
       explosives.get(i).explode();
-      System.out.println("x/y: " + x + "/" + y);
+      System.out.println("x/y: " + x + "/" + y); //<>//
       i--;
     }
     }

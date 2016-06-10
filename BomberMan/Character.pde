@@ -67,11 +67,11 @@ class Character implements Drawable{
 
   boolean leftRightClear(){
     if(dx<0){
-     if(x-21<0 || getTile(x-21,y).getState() == 2 || getTile(x-21,y).hasBomb&&!getTile(x,y).hasBomb){
+     if(x-21<0 || getTile(x-21,y).getState() > 1 || getTile(x-21,y).hasBomb&&!getTile(x,y).hasBomb){
        return false;
      }
     }else{
-      if(x+21>=width || getTile(x+21,y).getState() == 2 || getTile(x+21,y).hasBomb&&!getTile(x,y).hasBomb){
+      if(x+21>=width || getTile(x+21,y).getState() > 1 || getTile(x+21,y).hasBomb&&!getTile(x,y).hasBomb){
        return false;
      }
     }
