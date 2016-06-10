@@ -24,7 +24,7 @@ void setup(){
   rectMode(CENTER);
   imageMode(CENTER);
   size(640, 480);
-  
+ 
   //initiate vars
   state = 0;
   score = 0;
@@ -54,17 +54,20 @@ void setup(){
     buttons.set(i, new ArrayList<Button>());
   }
   buttons.add(0,new ArrayList<Button>());
-  buttons.add(1,new ArrayList<Button>());
-  buttons.add(2,new ArrayList<Button>());
-  buttons.add(3,new ArrayList<Button>());
+  buttons.add(1,new ArrayList<Button>()); //state 2
+  buttons.add(2,new ArrayList<Button>()); //state 3
+  buttons.add(3,new ArrayList<Button>()); //state 4
+  buttons.add(4,new ArrayList<Button>()); // state 5
   buttons.get(0).add(new Button(width/20,height/3,"Play",20,color(0,0,0),color(0,0,100)));
   buttons.get(0).add(new Button(width/20,height/3+40,"Exit",20,color(0,0,0),color(0,0,100)));
   buttons.get(0).add(new Button(width/20,height/3+80,"Lose!",20, color(0,0,0),color(0,0,100)));
   buttons.get(0).add(new Button(width/20,height/3+120,"Win!",20, color(0,0,0),color(0,0,100)));
   buttons.get(2).add(new Button(60,390,"Play Again!",20,color(#FF0505),color(0,0,100)));
   buttons.get(3).add(new Button(60,390,"Play Again!",20,color(#FF0505),color(0,0,100)));
+  buttons.get(4).add(new Button(width/20,height/3,"Player VS Player",20,color(#FF0505),color(0,0,100)));
+  buttons.get(4).add(new Button(width/20,height/3+40,"Player VS Computer",20,color(#FF0505),color(0,0,100)));
   background = color(0,0,200);
-   
+  
   //method calls
   placeChars();
 }
@@ -83,7 +86,7 @@ void draw(){
         explosives.remove(i);
       }
       state = 3; //you lose!
-    }else if(chars.size()==1){
+    }else if(chars.size()<2){
       state = 4; //you win!
     }
     //change states
@@ -228,6 +231,12 @@ void draw(){
       butt.draw();
     }
   }
+  else if(state == 5){
+    background(#D3BCE3);
+    for(Button butt : buttons.get(4)){
+      butt.draw();
+    }
+  }
 }
 
 void keyReleased() {
@@ -307,7 +316,7 @@ void keyPressed() {
 void mousePressed(){
   if(state == 0){
     if(buttons.get(0).get(0).retOver()){
-      state = 2;
+      state = 5; //mode select
     }else if(buttons.get(0).get(1).retOver()){
       exit();
     }
@@ -330,6 +339,11 @@ void mousePressed(){
       setup();
       buttons.get(0).get(0).setOver(false);
       state = 0;
+    }
+  }
+  else if(state == 5){
+    if(buttons.get(4).get(0).retOver()){
+      state = 2;
     }
   }
 }
@@ -363,5 +377,5 @@ void placeChars(){
   chars.add(player1);
   chars.add(player2);
   toDraw.add(player1);
-  toDraw.add(player2);
+  toDraw.add(player2); 
 }
