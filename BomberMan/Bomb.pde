@@ -15,6 +15,9 @@ class Bomb implements Drawable,Volatile{
    sprite = loadImage(team+"bomb.png");
    this.owner = owner;
  }
+ Character getOwner(){
+   return owner;
+ }
  int getX(){
    return x;
  }

@@ -10,6 +10,7 @@ class Character implements Drawable{
   Tile goal;
   boolean droppedBomb,fleeing;
   float wait;
+  int score;
   
   Character(int x,int y,int dx,int dy,char colo,int health){
     this.x=x;
@@ -30,6 +31,16 @@ class Character implements Drawable{
     clearMap();
     wait = 0.0;
     fleeing = false;
+    score = 0;
+  }
+  int getHealth(){
+    return health;
+  }
+  int getScore(){
+    return score;
+  }
+  void setScore(int s){
+    score = s;
   }
   int getRad(){
     return radius;

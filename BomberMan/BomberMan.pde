@@ -1,15 +1,19 @@
+import processing.sound.*; //<>// //<>// //<>// //<>//
+
 import java.lang.Math;
 import processing.sound.*;
 import java.io.FileNotFoundException;
 static int state; //// 0=main menu 1=in-game pvp 2=in-game ai 3=lose 4=win 5=mode select 6=char select pvp 7=char select ai
 color background;
 Character player1, player2;
-int score; //WENDY I ADDED THIS (increases by the number of 
+String winner;
+Character Winner;
+//int score; //WENDY I ADDED THIS (increases by the number of 
 //blocks you destroy and later on, when you hit another player);
 BufferedReader reader;
 String line;
 PImage mainmenu;
-SoundFile music;
+//SoundFile music;
 
 //Item[][] itemGrid;
 
@@ -33,7 +37,6 @@ void setup(){
  
   //initiate vars
   state = 0;
-  score = 0;
   //File f = new File("~/finalProject/BomberMan/data/stage01.dat");
   reader = createReader("stage01.dat");
   grid = new Tile[width/40][height/40];
@@ -75,9 +78,9 @@ void setup(){
   buttons.get(4).add(new Button(width/3,height/3,"Player VS Player",20,color(0,0,150),color(0,0,200)));
   buttons.get(4).add(new Button(width/3,height/3+80,"Player VS Computer",20,color(0,0,150),color(0,0,200)));
   background = color(0,0,200);
-  music = new SoundFile(this, "mainmenu.mp3");
+  //music = new SoundFile(this, "mainmenu.mp3");
   loop();
-  music.play();
+  //music.play();
   
   //method calls
   resetColors();
@@ -96,12 +99,13 @@ void draw(){
       mainmenu = loadImage("mainmenu3.png");
     }
     image(mainmenu,320,240);
-    for(Button butt : buttons.get(0)){ //<>//
+    for(Button butt : buttons.get(0)){
       butt.draw();
     }
   }else if(state == 1 || state == 2){
-    background(background); //<>//
+    background(background);
     //get input
+    if(state == 2){
     if(player1.health == 0){
       for(int i = 0;i<explosives.size();i++){
         explosives.remove(i);
@@ -109,6 +113,25 @@ void draw(){
       state = 3; //you lose!
     }else if(chars.size()<2){
       state = 4; //you win!
+    }
+    }
+    if(state == 1){
+      if(player1.health == 0){
+        for(int i = 0;i<explosives.size();i++){
+        explosives.remove(i);
+      }
+      state = 4; 
+      Winner = player2;
+      winner = "player2";
+      }
+      else if(player2.health == 0){
+        for(int i = 0;i<explosives.size();i++){
+        explosives.remove(i);
+      }
+      state = 4; 
+      Winner = player1;
+      winner = "player1";
+      }
     }
     //change states
     //player movement
@@ -135,7 +158,12 @@ void draw(){
       player1.useItem(grid[player1.x/40][player1.y/40].getIT());
       grid[player1.x/40][player1.y/40].setState(0);
     }
-    
+    if(state == 1){
+    if(grid[player2.x/40][player2.y/40].getState() == 1){
+      player2.useItem(grid[player2.x/40][player2.y/40].getIT());
+      grid[player2.x/40][player2.y/40].setState(0);
+    }
+    }
     //change bomb/cross states
     for(int i=0;i<explosives.size();i++){
       if(explosives.get(i) instanceof Cross){
@@ -143,7 +171,7 @@ void draw(){
         for(int e=0;e<chars.size();e++){
           if(((Cross)explosives.get(i)).inBlast(chars.get(e).x,chars.get(e).y) && chars.get(e).status == 0){
             if(chars.get(e)==player1){
-              score -= 10; //this is where the problem is
+              player1.score -= 10; 
             }
             if(chars.get(e).takeDamage()){
              e--; 
@@ -157,39 +185,43 @@ void draw(){
       if(explosives.get(i) instanceof Bomb){
       if(inGrid(x/40+1,y/40)){
         int tempState = grid[x/40+1][y/40].getState();
+        Character tempOwner= explosives.get(i).getOwner();
         if(tempState >= 2 && tempState != 4){
           grid[x/40+1][y/40].setState(tempState-1);
-          score+= 20;
+          tempOwner.setScore(tempOwner.getScore() + 20);
         }
       }
       if(inGrid(x/40-1,y/40)){
         int tempState = grid[x/40-1][y/40].getState();
+        Character tempOwner= explosives.get(i).getOwner();
         if(tempState >= 2 && tempState != 4){
           grid[x/40-1][y/40].setState(tempState-1);
-          score+= 20;
+           tempOwner.setScore(tempOwner.getScore() + 20);
         }
       }
       if(inGrid(x/40,y/40+1)){
         int tempState = grid[x/40][y/40+1].getState();
+        Character tempOwner= explosives.get(i).getOwner();
         if(tempState >= 2 && tempState != 4){
           grid[x/40][y/40+1].setState(tempState-1);
-          score+= 20;
+           tempOwner.setScore(tempOwner.getScore() + 20);
         }
       }
       if(inGrid(x/40,y/40-1)){
         int tempState = grid[x/40][y/40-1].getState();
+        Character tempOwner= explosives.get(i).getOwner();
         if(tempState >= 2 && tempState != 4){
           grid[x/40][y/40-1].setState(tempState-1);
-          score+= 20;
+           tempOwner.setScore(tempOwner.getScore() + 20);
         }
       }
       }
       explosives.get(i).explode();
-      System.out.println("x/y: " + x + "/" + y); //<>//
+      System.out.println("x/y: " + x + "/" + y);
       i--;
     }
     }
- //<>//
+
     
     //draw
     //player1.draw();
@@ -199,7 +231,13 @@ void draw(){
     fill(0,200,200);
     textSize(20);
     text("Health: "+player1.health, 0,40);
-    text("Score: " + score, 100,40);
+    text("Score: " + player1.score, 100,40);
+    if(state == 1){
+      fill(0,200,200);
+      textSize(20);
+      text("Health: " + player2.health, 440, 40);
+      text("Score: " + player2.score, 540,40);
+    }
   }
   else if(state == 3){ //lose page
     PImage bomb = loadImage("bomb.jpg");
@@ -227,7 +265,7 @@ void draw(){
     }
     textSize(40);
     fill(#050000);
-    text("Your score is: " + score, 120, 420);
+    text("Your score is: " + player1.score, 120, 420);
     for(Button butt : buttons.get(2)){
       butt.draw();
     }
@@ -254,9 +292,13 @@ void draw(){
         image(wings,620,i*40+20,40,40);
       }
     }
-    textSize(40);
     fill(#050000);
-    text("You Win!! Your score is: " + score, 60, 420);
+    if(winner!= null){textSize(20);
+    text(winner + " Wins!! Their score is: " + Winner.score, 60, 420);
+    }
+    else{textSize(40);
+      text("You Win!! Your score is: " + player1.score, 60,420);
+    }
     for(Button butt : buttons.get(3)){
       butt.draw();
     }

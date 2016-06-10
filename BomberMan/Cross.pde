@@ -1,12 +1,16 @@
 class Cross implements Drawable,Volatile{
   int x,y,size;
   float time;
+  Character owner;
   
   Cross(int x,int y,int size){
     this.x = x;
     this.y = y;
     this.size = size;
     time = millis();
+  }
+  Character getOwner(){
+    return owner;
   }
   int getRadius(){
     return size/2;
