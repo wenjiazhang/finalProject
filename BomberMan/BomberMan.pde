@@ -41,7 +41,7 @@ void setup(){
     if(line != null){
       int[]States = int(split(line, ' '));
       for(int index = 0;index<grid[0].length;index++){
-        grid[i][index] = new Tile(i*40, index*40,States[index],(int)(Math.random()*5));
+        grid[i][index] = new Tile(i*40, index*40,States[index],(int)(Math.random()*10));
         toDraw.add(grid[i][index]);
         //System.out.println("Tile added!");
       }
@@ -118,23 +118,6 @@ void draw(){
       if(explosives.get(i).countDown()){
       int x = explosives.get(i).getX();
       int y = explosives.get(i).getY();
-      //int rad = explosives.get(i).getRadius();
-
-      //only if we decide to make a superFirePowerUp
-      //for(int inc = 1;inc<rad+1;inc++){
-      //  if(grid[x/40+inc][y/40].getState() == 2){
-      //    grid[x/40+inc][y/40].setState(1);
-      //  }
-      //  if(grid[x/40-inc][y/40].getState() == 2){
-      //    grid[x/40-inc][y/40].setState(1);
-      //  }
-      //  if(grid[x/40][y/40+inc].getState() == 2){
-      //    grid[x/40][y/40+inc].setState(1);
-      //  }
-      //  if(grid[x/40][y/40-inc].getState() == 2){
-      //    grid[x/40][y/40-inc].setState(1);
-      //  }
-      //}
       if(explosives.get(i) instanceof Bomb){
       if(inGrid(x/40+1,y/40)){
         int tempState = grid[x/40+1][y/40].getState();
@@ -319,28 +302,30 @@ void keyPressed() {
     }
   }
 }
-
+  
 void mousePressed(){
   if(state == 0){
-    if(buttons.get(0).get(0).over()){
+    if(buttons.get(0).get(0).retOver()){
       state = 1;
-    }else if(buttons.get(0).get(1).over()){
+    }else if(buttons.get(0).get(1).retOver()){
       exit();
     }
-    else if(buttons.get(0).get(2).over()){
+    else if(buttons.get(0).get(2).retOver()){
       state = 3;
     }
-    else if(buttons.get(0).get(3).over()){
+    else if(buttons.get(0).get(3).retOver()){
       state = 4;
     }
   }
   else if(state == 3){
-    if(buttons.get(2).get(0).over()){
+    if(buttons.get(2).get(0).retOver()){
+      buttons.get(0).get(0).setOver(false);
       state = 0;
     }
   }
   else if(state == 4){
-    if(buttons.get(3).get(0).over()){
+    if(buttons.get(3).get(0).retOver()){
+      buttons.get(0).get(0).setOver(false);
       state = 0;
     }
   }

@@ -18,7 +18,7 @@ class Button {
  void draw() {
    //colorMode(HSB);
    textSize(size);
-   if (over()) {
+   if (retOver()) {
      fill(overColor);
    }
    else {
@@ -26,8 +26,11 @@ class Button {
    }
    text(text, x, y);
  }
- 
- boolean over() {
-   return mouseX >= x && mouseX <= x + textWidth(text) && mouseY >= y && mouseY <= y + size;
+ void setOver(boolean b){
+   over = b;
+ }
+ boolean retOver() {
+   over = mouseX >= x && mouseX <= x + textWidth(text) && mouseY >= y && mouseY <= y + size;
+   return over;
  }
 }
