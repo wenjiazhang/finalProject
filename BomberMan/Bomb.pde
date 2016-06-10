@@ -4,14 +4,16 @@ class Bomb implements Drawable,Volatile{
  int radius;
  char team;
  PImage sprite;
+ Character owner;
  
- Bomb(int x,int y,char team,int rad){
+ Bomb(int x,int y,char team,int rad,Character owner){
    this.x = getTile(x,y).x+20;
    this.y = getTile(x,y).y+20;
    this.team = team;
    radius = rad;
    time = millis();
    sprite = loadImage(team+"bomb.png");
+   this.owner = owner;
  }
  int getX(){
    return x;
@@ -55,6 +57,8 @@ class Bomb implements Drawable,Volatile{
    Cross temp = new Cross(x,y,radius*2+1);
    toDraw.add(temp);
    explosives.add(temp);
+   getTile(x,y).hasBomb = false;
+   owner.droppedBomb = false;
    toDraw.remove(this);
    explosives.remove(this);
  }
