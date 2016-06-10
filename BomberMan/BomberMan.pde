@@ -1,18 +1,21 @@
 import java.lang.Math;
 import java.io.FileNotFoundException;
-static int state; //// 0=main menu 1=in-game pvp 2=in-game ai 3=lose 4=win 5=mode select 6=char select 7=pause
+static int state; //// 0=main menu 1=in-game pvp 2=in-game ai 3=lose 4=win 5=mode select 6=char select pvp 7=char select ai
 color background;
-Player player1, player2;
+Character player1, player2;
 int score; //WENDY I ADDED THIS (increases by the number of 
 //blocks you destroy and later on, when you hit another player);
 BufferedReader reader;
 String line;
+PImage mainmenu;
 //Item[][] itemGrid;
 
 ArrayList<Drawable> toDraw = new ArrayList<Drawable>();
 ArrayList<Volatile> explosives = new ArrayList<Volatile>();
 ArrayList<Character> chars = new ArrayList<Character>();
 ArrayList<ArrayList<Button>> buttons;
+ArrayList<String> colors = new ArrayList<String>();
+
 Tile[][] grid;
 
 void setup(){
@@ -58,27 +61,39 @@ void setup(){
   buttons.add(2,new ArrayList<Button>()); //state 3
   buttons.add(3,new ArrayList<Button>()); //state 4
   buttons.add(4,new ArrayList<Button>()); // state 5
-  buttons.get(0).add(new Button(width/20,height/3,"Play",20,color(0,0,0),color(0,0,100)));
-  buttons.get(0).add(new Button(width/20,height/3+40,"Exit",20,color(0,0,0),color(0,0,100)));
-  buttons.get(0).add(new Button(width/20,height/3+80,"Lose!",20, color(0,0,0),color(0,0,100)));
-  buttons.get(0).add(new Button(width/20,height/3+120,"Win!",20, color(0,0,0),color(0,0,100)));
+  buttons.add(5,new ArrayList<Button>()); // state 6
+  buttons.add(6,new ArrayList<Button>()); // state 7
+  buttons.get(0).add(new Button(width*2/5-40,400,"Play",20,color(0,0,150),color(0,0,200)));
+  buttons.get(0).add(new Button(width*3/5-40,400,"Exit",20,color(0,0,150),color(0,0,200)));
+  //buttons.get(0).add(new Button(width/20,height/3+80,"Lose!",20, color(0,0,0),color(0,0,100)));
+  //buttons.get(0).add(new Button(width/20,height/3+120,"Win!",20, color(0,0,0),color(0,0,100)));
   buttons.get(2).add(new Button(60,390,"Play Again!",20,color(#FF0505),color(0,0,100)));
   buttons.get(3).add(new Button(60,390,"Play Again!",20,color(#FF0505),color(0,0,100)));
-  buttons.get(4).add(new Button(width/20,height/3,"Player VS Player",20,color(#FF0505),color(0,0,100)));
-  buttons.get(4).add(new Button(width/20,height/3+40,"Player VS Computer",20,color(#FF0505),color(0,0,100)));
+  buttons.get(4).add(new Button(width/3,height/3,"Player VS Player",20,color(0,0,150),color(0,0,200)));
+  buttons.get(4).add(new Button(width/3,height/3+80,"Player VS Computer",20,color(0,0,150),color(0,0,200)));
   background = color(0,0,200);
   
   //method calls
-  placeChars();
+  resetColors();
 }
 
 void draw(){
+  System.out.println(state);
   if (state == 0){
-    background(background);
+    if(millis()/500%4==0){
+      mainmenu = loadImage("mainmenu0.png");
+    }else if(millis()/500%4==1){
+      mainmenu = loadImage("mainmenu1.png");
+    }else if(millis()/500%4==2){
+      mainmenu = loadImage("mainmenu2.png");
+    }else{
+      mainmenu = loadImage("mainmenu3.png");
+    }
+    image(mainmenu,320,240);
     for(Button butt : buttons.get(0)){
       butt.draw();
     }
-  }else if(state == 2){
+  }else if(state == 1 || state == 2){
     background(background); //<>//
     //get input
     if(player1.health == 0){
@@ -91,14 +106,23 @@ void draw(){
     }
     //change states
     //player movement
-      
-      if(player1.leftRightClear()){
-      player1.x+=player1.dx;
-      }
-      if(player1.upDownClear()){
-        player1.y+=player1.dy;
-      }
     
+    for(Character chara : chars){
+      if(chara.leftRightClear()){
+        chara.x+=chara.dx;
+      }
+      if(chara.upDownClear()){
+        chara.y+=chara.dy;
+      }
+    }
+    
+    if(state==2){
+      for(int i=1;i<chars.size();i++){
+        if((chars.get(i).x-20)%40==0 && (chars.get(i).y-20)%40==0){
+          chars.get(i).think();
+        }
+      }
+    }
     
     //use item
     if(grid[player1.x/40][player1.y/40].getState() == 1){
@@ -111,7 +135,7 @@ void draw(){
       if(explosives.get(i) instanceof Cross){
         //System.out.println("cross radius is" + explosives.get(i).getRadius());
         for(int e=0;e<chars.size();e++){
-          if(((Cross)explosives.get(i)).inBlast(chars.get(e).x,player1.y) && chars.get(e).status == 0){
+          if(((Cross)explosives.get(i)).inBlast(chars.get(e).x,chars.get(e).y) && chars.get(e).status == 0){
             if(chars.get(e)==player1){
               score -= 10; //this is where the problem is
             }
@@ -232,7 +256,7 @@ void draw(){
     }
   }
   else if(state == 5){
-    background(#D3BCE3);
+    background(32,8,245);
     for(Button butt : buttons.get(4)){
       butt.draw();
     }
@@ -240,7 +264,7 @@ void draw(){
 }
 
 void keyReleased() {
-  if(state == 2){
+  if(state == 1 || state == 2){
     if(keyCode== UP){
         player1.dy = 0;
     }else if(keyCode == DOWN){
@@ -249,25 +273,23 @@ void keyReleased() {
         player1.dx = 0;
     }else if(keyCode == RIGHT){
         player1.dx = 0;
-    }else if(key == ' '){
-      
     }
-    else if(key == 'w'){
-        player2.dy = 0;
-    }else if(key == 's'){
-        player2.dy = 0;
-    }else if(key == 'a'){
-        player2.dx = 0;
-    }else if(key == 'd'){
-        player2.dx = 0;
-    }else if(keyCode == CONTROL){
-      
+    if(state == 1){
+      if(key == 'w'){
+          player2.dy = 0;
+      }else if(key == 's'){
+          player2.dy = 0;
+      }else if(key == 'a'){
+          player2.dx = 0;
+      }else if(key == 'd'){
+          player2.dx = 0;
+      }
     }
   }
 }
 
 void keyPressed() {
-  if(state == 2){
+  if(state == 1 || state == 2){
     if(keyCode== UP && player1.dx ==0){
       player1.dy = -player1.speed;
       player1.autoTurn(0);
@@ -285,30 +307,29 @@ void keyPressed() {
       player1.autoTurn(3);
       player1.facing = 3;
     }else if(key == ' '){
-      Bomb temp = new Bomb(player1.x,player1.y,'R',player1.radius);
-      explosives.add(temp);
-      toDraw.add(temp);
+      player1.placeBomb();
     }
-    else if(keyCode== 'w' && player2.dx ==0){
-      player2.dy = -player2.speed;
-      player2.autoTurn(0);
-      player2.facing = 2;
-    }else if(key == 's' && player1.dx ==0){
-      player2.dy = player2.speed;
-      player2.autoTurn(1);
-      player2.facing = 0;
-    }else if(key == 'a' && player2.dy ==0){
-      player2.dx = -player2.speed;
-      player2.autoTurn(2);
-      player2.facing = 1;
-    }else if(key == 'd' && player2.dy ==0){
-      player2.dx = player2.speed;
-      player2.autoTurn(3);
-      player2.facing = 3;
-    }else if(key == CONTROL){
-      Bomb temp = new Bomb(player2.x,player2.y,'B',player2.radius);
-      explosives.add(temp);
-      toDraw.add(temp);
+    
+    if(state == 1){
+      if(key== 'w' && player2.dx ==0){
+        player2.dy = -player2.speed;
+        player2.autoTurn(0);
+        player2.facing = 2;
+      }else if(key == 's' && player1.dx ==0){
+        player2.dy = player2.speed;
+        player2.autoTurn(1);
+        player2.facing = 0;
+      }else if(key == 'a' && player2.dy ==0){
+        player2.dx = -player2.speed;
+        player2.autoTurn(2);
+        player2.facing = 1;
+      }else if(key == 'd' && player2.dy ==0){
+        player2.dx = player2.speed;
+        player2.autoTurn(3);
+        player2.facing = 3;
+      }else if(keyCode == CONTROL){
+        player2.placeBomb();
+      }
     }
   }
 }
@@ -320,12 +341,12 @@ void mousePressed(){
     }else if(buttons.get(0).get(1).retOver()){
       exit();
     }
-    else if(buttons.get(0).get(2).retOver()){
+    /*else if(buttons.get(0).get(2).retOver()){
       state = 3;
     }
     else if(buttons.get(0).get(3).retOver()){
       state = 4;
-    }
+    }*/
   }
   else if(state == 3){
     if(buttons.get(2).get(0).retOver()){
@@ -343,6 +364,11 @@ void mousePressed(){
   }
   else if(state == 5){
     if(buttons.get(4).get(0).retOver()){
+      placeChars(true);
+      state = 1;
+    }
+    if(buttons.get(4).get(1).retOver()){
+      placeChars(false);
       state = 2;
     }
   }
@@ -359,23 +385,45 @@ boolean inGrid(int xcor, int ycor){
   return true;
 }
 
-void placeChars(){
+void placeChars(boolean pvp){
   int row = 1;
   int col = 1;
   while(grid[row][col].getState() >= 2){
     col++;
   }
-  player1 = new Player(row*40+20,col*40+20,0,0);
-  
-  col=width/40-1;
-  row = 0;
-  while(grid[col][row].getState() >= 2){
-    col--;
-  }
-  Character player2 = new Character(col*40+20,row*40+20,0,0,155,'B');
-  
+  player1 = new Player(row*40+20,col*40+20,0,0,'R');
   chars.add(player1);
-  chars.add(player2);
   toDraw.add(player1);
-  toDraw.add(player2); 
+  colors.remove(""+player1.colour);
+  
+  if(pvp){
+    col=width/40-1;
+    row = 0;
+    while(grid[col][row].getState() >= 2){
+      col--;
+    }
+    player2 = new Player(col*40+20,row*40+20,0,0,'B');
+    
+    chars.add(player2);
+    toDraw.add(player2);
+  }else{
+    Character chara1 = new Character(620,20,0,0,colors.get(0).charAt(0),4);
+    Character chara2 = new Character(20,460,0,0,colors.get(1).charAt(0),4);
+    Character chara3 = new Character(620,460,0,0,colors.get(2).charAt(0),4);
+    
+    chars.add(chara1);
+    toDraw.add(chara1);
+    chars.add(chara2);
+    toDraw.add(chara2);
+    chars.add(chara3);
+    toDraw.add(chara3);
+  }
+  
+}
+
+void resetColors(){
+    colors.add("R");
+    colors.add("B");
+    colors.add("G");
+    colors.add("P");
 }

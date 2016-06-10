@@ -1,9 +1,9 @@
  class Tile implements Drawable{ 
       int x,y; //location
       int state; //has block, had block, never had block 
-      boolean Broken;
+      boolean Broken,hasBomb;
       int itemType; //speed Upgrade, or bomb Upgrade, or none
-      PImage img;
+      PImage img,tile;
       
     Tile(int x, int y, int state, int IT){
       this.x = x;
@@ -16,6 +16,9 @@
       else if(itemType ==1){
         img = loadImage("bombUp.png");
       }
+      hasBomb = false;
+      int i = (int)(Math.random()*5);
+      tile = loadImage("tile"+i+".png");
     }
     int getIT(){
       return itemType;
@@ -31,9 +34,8 @@
       System.out.println("tile at " + x + "/" + y + "is now at state " + state);
     }
     void draw(){
+      image(tile,x+20,y+20,40,40);
       if(state == 1 && itemType < 2){
-        fill(#FFFFFF);
-        rect(x+20,y+20,40,40);
         image(img,x+20,y+20,40,40);
         noFill();
       }
@@ -47,9 +49,9 @@
         fill(0,0,50);
       }
       else{
-        fill(#FFFFFF);
+        noFill();
       }
-      rect(x+20,y+20,40,40);
+      ellipse(x+20,y+20,40,40);
       //image(photo,x,y);
     }
    
