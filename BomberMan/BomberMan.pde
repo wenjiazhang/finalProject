@@ -75,11 +75,14 @@ void draw(){
     for(Button butt : buttons.get(0)){
       butt.draw();
     }
-  }else if(state ==1){
+  }else if(state == 2){
     background(background); //<>//
     //get input
     if(player1.health == 0){
-      state = 3; //you're dead
+      for(int i = 0;i<explosives.size();i++){
+        explosives.remove(i);
+      }
+      state = 3; //you lose!
     }else if(chars.size()==1){
       state = 4; //you win!
     }
@@ -107,7 +110,7 @@ void draw(){
         for(int e=0;e<chars.size();e++){
           if(((Cross)explosives.get(i)).inBlast(chars.get(e).x,player1.y) && chars.get(e).status == 0){
             if(chars.get(e)==player1){
-              score -= 10;
+              score -= 10; //this is where the problem is
             }
             if(chars.get(e).takeDamage()){
              e--; 
@@ -164,8 +167,6 @@ void draw(){
     textSize(20);
     text("Health: "+player1.health, 0,40);
     text("Score: " + score, 100,40);
-  }else if(state == 2){
-    
   }
   else if(state == 3){ //lose page
     PImage bomb = loadImage("bomb.jpg");
@@ -230,7 +231,7 @@ void draw(){
 }
 
 void keyReleased() {
-  if(state == 1){
+  if(state == 2){
     if(keyCode== UP){
         player1.dy = 0;
     }else if(keyCode == DOWN){
@@ -257,7 +258,7 @@ void keyReleased() {
 }
 
 void keyPressed() {
-  if(state == 1){
+  if(state == 2){
     if(keyCode== UP && player1.dx ==0){
       player1.dy = -player1.speed;
       player1.autoTurn(0);
@@ -306,7 +307,7 @@ void keyPressed() {
 void mousePressed(){
   if(state == 0){
     if(buttons.get(0).get(0).retOver()){
-      state = 1;
+      state = 2;
     }else if(buttons.get(0).get(1).retOver()){
       exit();
     }
@@ -319,12 +320,14 @@ void mousePressed(){
   }
   else if(state == 3){
     if(buttons.get(2).get(0).retOver()){
+      setup();
       buttons.get(0).get(0).setOver(false);
       state = 0;
     }
   }
   else if(state == 4){
     if(buttons.get(3).get(0).retOver()){
+      setup();
       buttons.get(0).get(0).setOver(false);
       state = 0;
     }

@@ -33,7 +33,11 @@ class Character implements Drawable{
      radius++;
    }  
   }
+  int getStatus(){
+   return status;
+  }
   void draw(){
+     
    if(status ==1 && millis() - timer >= 1500){
       status = 0;
     }
